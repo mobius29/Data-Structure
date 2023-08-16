@@ -59,8 +59,12 @@ int stack_pop(T_Stack *stack) {
         return 1;
     }
 
+    T_Node *top = stack->top;
     stack->top = stack->top->next;
     stack->size -= 1;
+
+    free(top->value);
+    free(top);
 
     return 0;
 }
@@ -76,6 +80,16 @@ void *stack_top(T_Stack *stack) {
 
 int stack_empty(T_Stack *stack) {
     return stack->size == 0;
+}
+
+void stack_clear(T_Stack *stack) {
+    while (!stack_empty(stack)) {
+        stack_pop(stack);
+    }
+}
+
+void stack_drop(T_Stack *stack) {
+    free(stack);
 }
 
 int main() {
@@ -96,6 +110,8 @@ int main() {
 
         fprintf(stdout, "%d ", *(int*)top);
     }
+
+    stack_drop(stack);
 
     return 0;    
 }
