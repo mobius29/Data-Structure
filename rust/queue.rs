@@ -60,6 +60,9 @@ impl<T> Queue<T> {
                 }
 
                 self.size -= 1;
+                if self.size == 0 {
+                    self.back = None;
+                }
                 Ok(())
             }
             None => Err("queue is empty!"),
